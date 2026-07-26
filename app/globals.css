@@ -1430,12 +1430,20 @@ h4 {
 .proc__sticky {
   position: sticky;
   top: calc(var(--nav-h) + 3rem);
+  will-change: transform; /* the parallax drift is written each frame in JS */
+}
+.proc__title {
+  margin-top: 1.25rem;
+  max-width: 12ch;
 }
 .proc__counter {
   /* Font family and tracking deliberately omitted — this is a Roman numeral
      and inherits both from the shared numeral rule in the typography block.
      Re-declaring either here silently overrides it (equal specificity, and
      this rule comes later in the file). */
+  /* Clear space below the headline so tall descenders (e.g. "carrying.")
+     never collide with the numeral. */
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
   font-size: clamp(5rem, 14vw, 11rem);
   line-height: 0.82;
   background: var(--gradient-fire);

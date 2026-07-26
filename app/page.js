@@ -3,12 +3,13 @@ import Reveal from "@/components/Reveal";
 import SplitHeadline from "@/components/SplitHeadline";
 import Placeholder from "@/components/Placeholder";
 import CursorGrid from "@/components/CursorGrid";
+import OrgDiagram from "@/components/OrgDiagram";
 import Marquee from "@/components/Marquee";
 import Stats from "@/components/Stats";
 import ProcessSticky from "@/components/ProcessSticky";
 import Testimonials from "@/components/Testimonials";
 import CtaBanner from "@/components/CtaBanner";
-import { hero, oneTeam, whoFor, founders, serviceTeasers } from "@/lib/content";
+import { hero, oneTeam, whoFor, orgChart, serviceTeasers } from "@/lib/content";
 
 export default function HomePage() {
   return (
@@ -180,29 +181,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===================== FOUNDERS ===================== */}
+      {/* ===================== HOW WE'RE BUILT (diagram) ===================== */}
       <section className="section">
         <div className="container">
           <Reveal className="section-head" style={{ marginBottom: "clamp(2rem,4vw,3.5rem)" }}>
-            <span className="eyebrow">{founders.eyebrow}</span>
+            <span className="eyebrow">{orgChart.eyebrow}</span>
             <h2 className="d2" style={{ marginTop: "1.4rem" }}>
-              {founders.title}
+              {orgChart.title}
             </h2>
-            <p className="lead">{founders.intro}</p>
+            <p className="lead">{orgChart.intro}</p>
           </Reveal>
 
-          <div className="founders">
-            {founders.people.map((person, i) => (
-              <Reveal className="founder" key={person.role} delay={i * 110}>
-                <div className="founder__media">
-                  <Placeholder label={person.imageLabel} variant="tall" />
-                </div>
-                <span className="founder__role">{person.role}</span>
-                <h3 className="founder__name">{person.name}</h3>
-                <p className="founder__bio">{person.bio}</p>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal>
+            <OrgDiagram />
+            <p className="org__footnote">{orgChart.footnote}</p>
+          </Reveal>
         </div>
       </section>
 

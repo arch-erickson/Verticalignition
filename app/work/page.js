@@ -7,7 +7,7 @@ import CtaBanner from "@/components/CtaBanner";
 export const metadata = {
   title: "Work",
   description:
-    "Real New York projects — restaurants, retail, and service businesses taken from empty space to opening day, plus rebrands and storefront refreshes.",
+    "Rebrands and refits for established New York businesses — restaurants, retail and service businesses brought back up to date, plus a few new openings.",
 };
 
 export default function WorkPage() {
@@ -21,14 +21,15 @@ export default function WorkPage() {
             <span className="eyebrow">Selected work</span>
           </Reveal>
           <SplitHeadline
-            lines={["Places we", "helped {open}."]}
+            lines={["Businesses that", "look {like themselves}", "again."]}
             className="d1 page-head__title"
             style={{ marginTop: "1.5rem" }}
           />
           <Reveal delay={340}>
             <p className="lead page-head__sub">
-              Every one of these was the same deal: one contract, one team, one timeline. Tap
-              any project to see the before, the after, and what actually happened in between.
+              Mostly rebrands — places that were already good and needed to look it. A few new
+              openings too. Every one was the same deal: one contract, one team, one timeline.
+              Tap any project for the before, the after, and what happened in between.
             </p>
           </Reveal>
         </div>

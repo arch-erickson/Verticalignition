@@ -10,7 +10,7 @@ import { packages, serviceCategories } from "@/lib/content";
 export const metadata = {
   title: "Services & Packages",
   description:
-    "Every service under one roof — brand identity, interior design, renovation and buildout, websites, marketing, photo and video — plus five packages for NYC small businesses.",
+    "Rebranding for established NYC small businesses — brand identity, interior redesign, renovation and buildout, websites, marketing, photo and video, all from one team.",
 };
 
 export default function ServicesPage() {
@@ -30,8 +30,9 @@ export default function ServicesPage() {
           />
           <Reveal delay={380}>
             <p className="lead page-head__sub">
-              Start with a package or pick off exactly what you need. Either way you&apos;re
-              dealing with us, not five companies who&apos;ve never met.
+              Most of this gets used to bring an existing business back up to date. Start with
+              a package, or have us build one around the job you&apos;ve actually got — either
+              way you&apos;re dealing with us, not five companies who&apos;ve never met.
             </p>
           </Reveal>
         </div>

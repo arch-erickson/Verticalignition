@@ -38,15 +38,15 @@ export const metadata = {
     template: `%s — ${company.name}`,
   },
   description:
-    "One team for your whole brand. Interior design, renovation, buildout, websites, marketing, photo and video for small businesses and restaurants across New York City.",
+    "Rebranding for established New York small businesses. Interior redesign, renovation, buildout, websites, marketing, photo and video — one team handling all of it.",
   keywords: [
-    "branding company NYC",
+    "rebranding company NYC",
+    "small business rebrand New York",
+    "restaurant rebrand NYC",
+    "storefront redesign NYC",
     "full-service branding for small business",
-    "restaurant branding New York",
-    "storefront design NYC",
     "interior design and buildout NYC",
     "brand identity New York",
-    "small business marketing NYC",
   ],
   authors: [{ name: company.name }],
   openGraph: {
@@ -54,9 +54,9 @@ export const metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: company.name,
-    title: `${company.name} — Full-Service Branding for NYC Small Business`,
+    title: `${company.name} — Rebranding for NYC Small Business`,
     description:
-      "You run the business. We'll handle the brand. Design, buildout, websites and marketing from one team in New York City.",
+      "You run the business. We'll handle the brand. Rebrands, redesigns, buildout, websites and marketing from one team in New York City.",
     images: [{ url: "/og.jpg", width: 1200, height: 630, alt: company.name }],
   },
   twitter: {

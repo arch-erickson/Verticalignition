@@ -1014,6 +1014,207 @@ h4 {
 }
 
 /* =============================================================================
+   ORG / CAPABILITY DIAGRAM  (components/OrgDiagram.js)
+   ========================================================================== */
+.org {
+  position: relative;
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 5.5rem);
+}
+@media (min-width: 900px) {
+  .org {
+    /* root | leads | services | outcome — everything fans out from the left
+       and funnels back into "Your Brand" on the right */
+    grid-template-columns: max-content max-content max-content max-content;
+    justify-content: center;
+    align-items: center;
+  }
+  .org__rootCell {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+  .org__branch {
+    display: contents;
+  }
+  .org__branch[data-branch] .org__leadCell {
+    grid-column: 2;
+  }
+  .org__branch[data-branch] .org__nodes {
+    grid-column: 3;
+  }
+  .org__outcomeCell {
+    grid-column: 4;
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+/* Connector layer sits behind the pills */
+.org__wires {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+}
+.org__wire {
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1;
+}
+.org__wire--trunk {
+  stroke: var(--flame);
+  stroke-width: 1.6;
+}
+/* The converging half of the diagram — kept faint so 16 lines funnelling
+   into one pill reads as flow rather than noise. */
+.org__wire--out {
+  stroke: var(--ignite);
+  stroke-width: 1;
+  opacity: 0.4;
+}
+
+/* Root pill */
+.org__root,
+.org__lead,
+.org__node {
+  position: relative;
+  z-index: 1;
+}
+.org__root {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 1rem 1.5rem;
+  border-radius: 999px;
+  background: var(--black);
+  color: var(--on-black);
+  box-shadow: 0 14px 40px rgba(11, 11, 11, 0.18);
+}
+.org__root strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.org__root small {
+  display: block;
+  font-size: 0.76rem;
+  color: rgba(246, 244, 241, 0.6);
+  margin-top: 0.1rem;
+}
+.org__spark {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--gradient-fire);
+  flex: none;
+}
+
+/* Lead pills */
+.org__lead {
+  display: inline-block;
+  padding: 0.85rem 1.3rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--ink);
+  background: var(--canvas);
+  max-width: 17rem;
+}
+.org__lead strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+.org__lead small {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--ink-45);
+  margin-top: 0.1rem;
+}
+
+/* Node pills */
+.org__nodes {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+@media (min-width: 900px) {
+  .org__nodes {
+    /* A single column makes the fan-out from each lead legible, and
+       stretching the pills aligns their right edges so the lines into
+       "Your Brand" converge cleanly instead of starting ragged. */
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.4rem;
+    min-width: 13.5rem;
+  }
+}
+.org__node {
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--canvas);
+  font-size: 0.85rem;
+  color: var(--ink-70);
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease),
+    transform 0.4s var(--ease);
+}
+.org__node:hover {
+  border-color: var(--flame);
+  color: var(--ink);
+  transform: translateX(3px);
+}
+/* Outcome pill — the payoff every line runs into */
+.org__outcome {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 1.1rem 1.6rem;
+  border-radius: 999px;
+  background: var(--gradient-fire);
+  color: #fff;
+  box-shadow: 0 16px 44px rgba(255, 61, 0, 0.28);
+  text-align: center;
+}
+.org__outcome strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.org__outcome small {
+  display: block;
+  font-size: 0.76rem;
+  color: rgba(255, 255, 255, 0.82);
+  margin-top: 0.1rem;
+}
+
+.org__footnote {
+  margin-top: clamp(1.75rem, 4vw, 2.75rem);
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  color: var(--ink-45);
+  font-size: 0.95rem;
+}
+
+/* Stacked layout below the breakpoint */
+@media (max-width: 899px) {
+  .org__branch {
+    padding-left: 1rem;
+    border-left: 2px solid var(--line);
+  }
+  .org__leadCell {
+    margin-bottom: 0.9rem;
+  }
+}
+
+/* =============================================================================
    SERVICE TEASER LIST (numbered rows, DD.NYC feel)
    ========================================================================== */
 .tlist {
@@ -1228,6 +1429,18 @@ h4 {
   text-transform: uppercase;
   padding: 0.38rem 0.75rem;
   border-radius: 999px;
+}
+/* "Recommended" — orange outline on the page background, no black fill */
+.pkg__badge--rec {
+  background: var(--canvas);
+  color: var(--ember);
+  border: 1.5px solid var(--ember);
+}
+/* The recommended card stays light, but gets a warm edge so it reads as a
+   deliberate third option next to the black featured card. */
+.pkg--recommended {
+  border-color: var(--ember);
+  background: linear-gradient(180deg, var(--fire-soft) 0%, var(--canvas) 42%);
 }
 .pkg__n {
   font-size: 0.7rem;

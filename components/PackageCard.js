@@ -12,8 +12,15 @@ export default function PackageCard({ pkg }) {
   const panelId = useId();
 
   return (
-    <article className={`pkg ${pkg.featured ? "pkg--featured" : ""}`}>
+    <article
+      className={`pkg ${pkg.featured ? "pkg--featured" : ""} ${
+        pkg.recommended ? "pkg--recommended" : ""
+      }`}
+    >
       {pkg.featured && <span className="pkg__badge">Most popular</span>}
+      {pkg.recommended && (
+        <span className="pkg__badge pkg__badge--rec">Recommended</span>
+      )}
 
       <span className="pkg__n">{pkg.n}</span>
       <h3 className="pkg__name">{pkg.name}</h3>

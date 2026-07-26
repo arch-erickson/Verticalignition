@@ -165,7 +165,10 @@ h4 {
 }
 
 /* Index numerals — Roman throughout, but restrained: the monogram is the
-   place the inscriptional character gets to be loud, not these. */
+   place the inscriptional character gets to be loud, not these.
+   NOTE: component rules further down must not re-declare font-family or
+   letter-spacing on these elements, or they'll win on source order and
+   quietly drop back to the sans face. */
 .tlist__n,
 .pkg__n,
 .svc-cat__n,
@@ -1364,10 +1367,12 @@ h4 {
   top: calc(var(--nav-h) + 3rem);
 }
 .proc__counter {
-  font-family: var(--font-display);
+  /* Font family and tracking deliberately omitted — this is a Roman numeral
+     and inherits both from the shared numeral rule in the typography block.
+     Re-declaring either here silently overrides it (equal specificity, and
+     this rule comes later in the file). */
   font-size: clamp(5rem, 14vw, 11rem);
   line-height: 0.82;
-  letter-spacing: -0.06em;
   background: var(--gradient-fire);
   -webkit-background-clip: text;
   background-clip: text;
@@ -1411,10 +1416,11 @@ h4 {
   gap: 1rem;
 }
 .proc__label small {
+  /* Also a Roman numeral — no font-family here. This selector is
+     class + element, so declaring one would outrank the shared rule. */
   font-size: 0.7rem;
   letter-spacing: 0.16em;
   color: var(--flame);
-  font-family: var(--font-body);
 }
 .proc__tags {
   list-style: none;

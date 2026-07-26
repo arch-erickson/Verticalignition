@@ -799,152 +799,124 @@ h4 {
   gap: 0.75rem;
   margin-top: 1.75rem;
 }
-/* Hero media — a frosted glass panel with the image inset well inside it.
-   Nothing sits behind the panel but the cursor cross-grid, which is exactly
-   what the frosting is there to refract. */
+/* Hero media — padding leaves room for the offset blocks behind each card. */
 .hero__media {
   margin-top: clamp(2.5rem, 5vw, 4rem);
   position: relative;
-}
-.glass {
-  position: relative;
-  border-radius: var(--r-lg);
-  /* caps at the intended 100px inset on desktop, tightens on small screens */
-  padding: clamp(1.25rem, 8vw, 100px);
-  background: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.66),
-    rgba(255, 255, 255, 0.28)
-  );
-  backdrop-filter: blur(22px) saturate(170%);
-  -webkit-backdrop-filter: blur(22px) saturate(170%);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  box-shadow: 0 34px 90px rgba(11, 11, 11, 0.16),
-    inset 0 1px 0 rgba(255, 255, 255, 0.85);
-}
-/* Specular sheen across the top edge */
-.glass::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0) 42%
-  );
-}
-/* Refracting rim. Masked to a band around the edge, because that is the only
-   place real glass bends light — the flat middle of a pane barely distorts.
-   The SVG filter displaces red further than green/blue, giving the colour
-   fringing at the same time. See components/GlassFilters.js. */
-.glass__rim {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  padding: 26px; /* rim thickness */
-  backdrop-filter: url(#vi-glass-edge) blur(1px) saturate(150%);
-  -webkit-backdrop-filter: blur(2px) saturate(150%);
-  -webkit-mask: linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  mask-composite: exclude;
-}
-/* Bevel highlight riding the very edge, so the rim reads as thickness */
-.glass__bevel {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
-    inset 0 -18px 30px -22px rgba(255, 106, 0, 0.35),
-    inset 0 18px 30px -22px rgba(90, 160, 255, 0.28);
-}
-.glass-defs {
-  position: absolute;
-  width: 0;
-  height: 0;
-  overflow: hidden;
-}
-
-.glass__inner {
-  position: relative;
-  border-radius: calc(var(--r-lg) - 14px);
+  padding: clamp(0.75rem, 3vw, 2rem) 0;
 }
 
 /* =============================================================================
-   HERO DISC — three images orbiting a vertical axis
+   HERO STAGE — a large centre image flanked by two smaller ones, held together
+   by one organic black pill (an SVG gooey filter). See components/HeroStage.js.
    ========================================================================== */
-.disc {
+.stage {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  transform-style: preserve-3d;
+  display: grid;
+  grid-template-columns: 0.66fr 1fr 0.66fr;
+  align-items: center;
+  gap: clamp(1.75rem, 4vw, 3.5rem); /* room for the black necks between cards */
+  padding: clamp(1.5rem, 4vw, 2.75rem);
 }
-@media (max-width: 700px) {
-  .disc {
-    aspect-ratio: 4 / 3;
-  }
-}
-.disc__item {
+.stage__defs {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: clamp(150px, 34%, 380px);
-  will-change: transform, opacity;
-  /* No transition — the rAF loop drives transform every frame, and a
-     transition on top of that would fight it and lag the motion. */
+  width: 0;
+  height: 0;
 }
-.disc__media {
-  position: relative;
-  z-index: 1;
-  border-radius: var(--r-md);
-  overflow: hidden;
-  background: var(--canvas-soft);
-  box-shadow: 0 24px 60px rgba(11, 11, 11, 0.22);
-}
-.disc__img {
-  display: block;
-  width: 100%;
-  height: auto; /* next/image emits a height attribute — see note above */
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-}
-.disc__media .ph {
-  aspect-ratio: 4 / 3;
-  border-radius: 0;
-}
-/* The bold offset block behind each card */
-.disc__fill {
+
+/* The pill layer sits behind the images. The goo filter blurs the black blocks
+   and hard-thresholds their alpha, so neighbours fuse into one shape. */
+.stage__pill {
   position: absolute;
   inset: 0;
   z-index: 0;
-  border-radius: var(--r-md);
-  transform: translate(50px, 50px);
+  filter: url(#vi-goo);
+  pointer-events: none;
 }
-.disc__fill--ink {
+.stage__blob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 34px;
   background: var(--black);
+  /* width / height / transform are written every frame by HeroStage.js */
 }
-.disc__fill--fire {
-  background: var(--gradient-fire);
+
+.stage__slot {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
 }
-@media (max-width: 700px) {
-  .disc__fill {
-    transform: translate(24px, 24px);
+/* The side images sit smaller so the centre reads as the subject. */
+.stage__slot--left,
+.stage__slot--right {
+  transform: scale(0.88);
+}
+.stage__slot--left {
+  transform-origin: right center;
+}
+.stage__slot--right {
+  transform-origin: left center;
+}
+
+.stage__card {
+  position: relative;
+  margin: 0;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--canvas-soft);
+  /* Slow in, snap to place — the "turn" easing. Replayed on each rotation
+     because React remounts the figure (keyed by image index). */
+  animation: stage-pop 0.9s cubic-bezier(0.34, 1.32, 0.4, 1) both;
+}
+/* Only the centre card gets the full overshoot pop. */
+.stage__slot--center .stage__card {
+  animation-name: stage-pop-center;
+}
+/* The photograph keeps its own proportions — no forced ratio, no cropping. */
+.stage__img {
+  display: block;
+  width: 100%;
+  height: auto; /* next/image emits a height attribute that would win otherwise */
+}
+.stage__card .ph {
+  aspect-ratio: 4 / 3; /* placeholders have no intrinsic size */
+  border-radius: 0;
+}
+
+@keyframes stage-pop {
+  from {
+    opacity: 0;
+    transform: translateX(6%) scale(0.96);
   }
-  .disc__img,
-  .disc__media .ph {
-    aspect-ratio: 1 / 1;
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
-/* Fallback for browsers without backdrop-filter — stay opaque, not muddy */
-@supports not (backdrop-filter: blur(2px)) {
-  .glass {
-    background: rgba(255, 255, 255, 0.9);
+/* Centre: rise in, overshoot bigger, then settle — the dynamic "pop". */
+@keyframes stage-pop-center {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* On phones a three-across row leaves the centre too small — show it alone. */
+@media (max-width: 640px) {
+  .stage {
+    grid-template-columns: 1fr;
+  }
+  .stage__slot--left,
+  .stage__slot--right {
+    display: none;
   }
 }
 /* Scroll cue */

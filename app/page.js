@@ -4,8 +4,7 @@ import Reveal from "@/components/Reveal";
 import SplitHeadline from "@/components/SplitHeadline";
 import CursorGrid from "@/components/CursorGrid";
 import OrgDiagram from "@/components/OrgDiagram";
-import HeroDisc from "@/components/HeroDisc";
-import GlassFilters from "@/components/GlassFilters";
+import HeroStage from "@/components/HeroStage";
 import Marquee from "@/components/Marquee";
 import Stats from "@/components/Stats";
 import ProcessSticky from "@/components/ProcessSticky";
@@ -56,14 +55,7 @@ export default function HomePage() {
           {/* Frosted glass panel with the image inset from its edge.
               Set hero.image in lib/content.js to swap in a real photo. */}
           <Reveal variant="scale" delay={200} className="hero__media">
-            <GlassFilters />
-            <div className="glass">
-              <div className="glass__rim" aria-hidden="true" />
-              <div className="glass__bevel" aria-hidden="true" />
-              <div className="glass__inner">
-                <HeroDisc />
-              </div>
-            </div>
+            <HeroStage />
           </Reveal>
         </div>
       </section>

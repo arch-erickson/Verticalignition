@@ -51,9 +51,19 @@ export default function HomePage() {
             </Reveal>
           </div>
 
-          {/* Apple-style full-bleed rounded hero card */}
+          {/* Frosted glass panel with the image inset from its edge.
+              Set hero.image in lib/content.js to swap in a real photo. */}
           <Reveal variant="scale" delay={200} className="hero__media">
-            <Placeholder label={hero.imageLabel} />
+            <div className="hero__glow" aria-hidden="true" />
+            <div className="glass">
+              <div className="glass__inner">
+                {hero.image ? (
+                  <img className="glass__img" src={hero.image} alt={hero.imageAlt} />
+                ) : (
+                  <Placeholder label={hero.imageLabel} />
+                )}
+              </div>
+            </div>
           </Reveal>
         </div>
       </section>

@@ -2,9 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import SplitHeadline from "@/components/SplitHeadline";
-import Placeholder from "@/components/Placeholder";
 import CursorGrid from "@/components/CursorGrid";
 import OrgDiagram from "@/components/OrgDiagram";
+import HeroDisc from "@/components/HeroDisc";
+import GlassFilters from "@/components/GlassFilters";
 import Marquee from "@/components/Marquee";
 import Stats from "@/components/Stats";
 import ProcessSticky from "@/components/ProcessSticky";
@@ -55,21 +56,12 @@ export default function HomePage() {
           {/* Frosted glass panel with the image inset from its edge.
               Set hero.image in lib/content.js to swap in a real photo. */}
           <Reveal variant="scale" delay={200} className="hero__media">
+            <GlassFilters />
             <div className="glass">
+              <div className="glass__rim" aria-hidden="true" />
+              <div className="glass__bevel" aria-hidden="true" />
               <div className="glass__inner">
-                {hero.image ? (
-                  <Image
-                    className="glass__img"
-                    src={hero.image}
-                    alt={hero.imageAlt}
-                    width={hero.imageWidth}
-                    height={hero.imageHeight}
-                    sizes="(max-width: 1100px) 100vw, 1100px"
-                    priority /* hero image — this is the LCP element */
-                  />
-                ) : (
-                  <Placeholder label={hero.imageLabel} />
-                )}
+                <HeroDisc />
               </div>
             </div>
           </Reveal>

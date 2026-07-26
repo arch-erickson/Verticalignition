@@ -835,29 +835,110 @@ h4 {
     rgba(255, 255, 255, 0) 42%
   );
 }
+/* Refracting rim. Masked to a band around the edge, because that is the only
+   place real glass bends light — the flat middle of a pane barely distorts.
+   The SVG filter displaces red further than green/blue, giving the colour
+   fringing at the same time. See components/GlassFilters.js. */
+.glass__rim {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  padding: 26px; /* rim thickness */
+  backdrop-filter: url(#vi-glass-edge) blur(1px) saturate(150%);
+  -webkit-backdrop-filter: blur(2px) saturate(150%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+/* Bevel highlight riding the very edge, so the rim reads as thickness */
+.glass__bevel {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+    inset 0 -18px 30px -22px rgba(255, 106, 0, 0.35),
+    inset 0 18px 30px -22px rgba(90, 160, 255, 0.28);
+}
+.glass-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
 .glass__inner {
   position: relative;
   border-radius: calc(var(--r-lg) - 14px);
-  overflow: hidden;
-  background: var(--canvas-soft);
 }
-.glass__img {
-  display: block;
+
+/* =============================================================================
+   HERO DISC — three images orbiting a vertical axis
+   ========================================================================== */
+.disc {
+  position: relative;
   width: 100%;
-  /* height:auto is required — next/image emits a height attribute, which acts
-     as a presentational hint and otherwise beats aspect-ratio. */
-  height: auto;
   aspect-ratio: 16 / 9;
-  object-fit: cover;
-}
-.glass__inner .ph {
-  aspect-ratio: 16 / 9;
-  border-radius: 0;
+  transform-style: preserve-3d;
 }
 @media (max-width: 700px) {
-  .glass__img,
-  .glass__inner .ph {
-    aspect-ratio: 4 / 5;
+  .disc {
+    aspect-ratio: 4 / 3;
+  }
+}
+.disc__item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(150px, 34%, 380px);
+  will-change: transform, opacity;
+  /* No transition — the rAF loop drives transform every frame, and a
+     transition on top of that would fight it and lag the motion. */
+}
+.disc__media {
+  position: relative;
+  z-index: 1;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--canvas-soft);
+  box-shadow: 0 24px 60px rgba(11, 11, 11, 0.22);
+}
+.disc__img {
+  display: block;
+  width: 100%;
+  height: auto; /* next/image emits a height attribute — see note above */
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.disc__media .ph {
+  aspect-ratio: 4 / 3;
+  border-radius: 0;
+}
+/* The bold offset block behind each card */
+.disc__fill {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: var(--r-md);
+  transform: translate(50px, 50px);
+}
+.disc__fill--ink {
+  background: var(--black);
+}
+.disc__fill--fire {
+  background: var(--gradient-fire);
+}
+@media (max-width: 700px) {
+  .disc__fill {
+    transform: translate(24px, 24px);
+  }
+  .disc__img,
+  .disc__media .ph {
+    aspect-ratio: 1 / 1;
   }
 }
 /* Fallback for browsers without backdrop-filter — stay opaque, not muddy */

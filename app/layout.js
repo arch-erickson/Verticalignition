@@ -1,5 +1,5 @@
 import "./globals.css";
-import { Space_Grotesk, Inter } from "next/font/google";
+import { Space_Grotesk, Inter, Cinzel } from "next/font/google";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import FloatingCta from "@/components/FloatingCta";
@@ -22,6 +22,15 @@ const spaceGrotesk = Space_Grotesk({
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+// Roman inscriptional capitals — used for the VI monogram and every index
+// numeral on the site. Vertical Ignition's initials are also VI = 6.
+const cinzel = Cinzel({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--font-roman-src",
   display: "swap",
 });
 
@@ -91,7 +100,10 @@ export default function RootLayout({ children }) {
   };
 
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
+    <html
+      lang="en"
+      className={`${spaceGrotesk.variable} ${inter.variable} ${cinzel.variable}`}
+    >
       <body>
         <a href="#main" className="btn skip-link">
           Skip to content

@@ -35,6 +35,8 @@
   /* ---- TYPE (set in app/layout.js) ---- */
   --font-display: var(--font-space), "Helvetica Neue", Arial, sans-serif;
   --font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* Roman inscriptional capitals — the VI monogram and every index numeral */
+  --font-roman: var(--font-roman-src), "Trajan Pro", "Times New Roman", serif;
 
   /* ---- METRICS ---- */
   --maxw: 1440px;
@@ -160,6 +162,20 @@ h4 {
   height: 2px;
   border-radius: 2px;
   background: var(--gradient-fire);
+}
+
+/* Index numerals — Roman throughout, but restrained: the monogram is the
+   place the inscriptional character gets to be loud, not these. */
+.tlist__n,
+.pkg__n,
+.svc-cat__n,
+.work__n,
+.proc__counter,
+.proc__label small {
+  font-family: var(--font-roman);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  font-variant-ligatures: none;
 }
 
 /* Fire-gradient text */
@@ -536,12 +552,32 @@ h4 {
   gap: 0.65rem;
   flex: none;
 }
-.nav__spark {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+/* VI monogram — Vertical Ignition's initials, which are also 6 in Roman
+   numerals. This is where the inscriptional lettering is exaggerated:
+   heavy weight, wide tracking, tall caps. */
+.nav__mark {
+  font-family: var(--font-roman);
+  font-weight: 700;
+  font-size: 1.55rem;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  padding-right: 0.06em; /* balances the trailing letterspace */
   background: var(--gradient-fire);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   flex: none;
+}
+.nav__mark::after {
+  /* the ember that used to be the standalone dot */
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  margin-left: 0.12em;
+  vertical-align: 0.72em;
+  border-radius: 50%;
+  background: var(--ember);
   animation: pulse 2.8s var(--ease) infinite;
 }
 @keyframes pulse {

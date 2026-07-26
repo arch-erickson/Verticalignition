@@ -38,9 +38,11 @@ export default function Nav() {
   return (
     <header className={`nav ${scrolled ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
       <div className="container nav__inner">
-        {/* Stacked logotype + pulsing ember (REPLACE with a real logo if you have one) */}
+        {/* VI monogram + stacked logotype (REPLACE with a real logo if you have one) */}
         <Link href="/" className="nav__brand" aria-label={`${company.name} home`}>
-          <span className="nav__spark" aria-hidden="true" />
+          <span className="nav__mark" aria-hidden="true">
+            {company.shortName}
+          </span>
           <span className="nav__word">
             {company.nameLines[0]}
             <br />

@@ -807,60 +807,45 @@ h4 {
 }
 
 /* =============================================================================
-   HERO STAGE — a large 16:9 centre image between two 1:1 images, held together
-   by one organic black pill (an SVG gooey filter). Cards are positioned
-   imperatively; see components/HeroStage.js.
+   HERO STAGE — three independent black-framed cards: a wide 16:9 centre between
+   two 1:1 sides, all the same height. Positioned imperatively; see
+   components/HeroStage.js.
    ========================================================================== */
 .stage {
   position: relative;
   width: 100%;
-  /* height is set in JS from the centre image size */
-}
-.stage__defs {
-  position: absolute;
-  width: 0;
-  height: 0;
+  /* height is set in JS from the card height */
 }
 
-/* The pill layer sits behind the images. The goo filter blurs the black blocks
-   and hard-thresholds their alpha, so overlapping neighbours fuse into one
-   shape while each keeps a consistent corner radius. */
-.stage__pill {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  filter: url(#vi-goo);
-  pointer-events: none;
-}
-.stage__blob {
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-radius: var(--r-lg); /* consistent with the other pills */
-  background: var(--black);
-  /* width / height / transform / opacity are written each frame by JS */
-}
-
-/* Cards are absolutely positioned; left/top/width/height/transform are all set
-   from JS, so no layout rules here beyond the frame. */
+/* Each card is its own black rounded frame (the pill look, one per image). */
 .stage__card {
   position: absolute;
   margin: 0;
   z-index: 1;
-  border-radius: var(--r-md);
-  overflow: hidden;
-  background: var(--canvas-soft);
+  box-sizing: border-box;
+  padding: 22px; /* frame thickness — must match PAD in HeroStage.js */
+  border-radius: var(--r-lg);
+  background: var(--black);
+  box-shadow: 0 26px 64px rgba(11, 11, 11, 0.2);
   will-change: transform, filter, opacity, left, top, width, height;
   backface-visibility: hidden;
 }
-/* The image fills the card box, cropped to whatever ratio the slot dictates. */
+/* Inner image well */
+.stage__media {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--canvas-soft);
+}
+/* The image fills the well, cropped to the slot's ratio (never squashed). */
 .stage__img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.stage__card .ph {
+.stage__media .ph {
   width: 100%;
   height: 100%;
   border-radius: 0;

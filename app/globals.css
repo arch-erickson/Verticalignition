@@ -807,16 +807,14 @@ h4 {
 }
 
 /* =============================================================================
-   HERO STAGE — a large centre image flanked by two smaller ones, held together
-   by one organic black pill (an SVG gooey filter). See components/HeroStage.js.
+   HERO STAGE — a large 16:9 centre image between two 1:1 images, held together
+   by one organic black pill (an SVG gooey filter). Cards are positioned
+   imperatively; see components/HeroStage.js.
    ========================================================================== */
 .stage {
   position: relative;
-  display: grid;
-  grid-template-columns: 0.66fr 1fr 0.66fr;
-  align-items: center;
-  gap: clamp(1.75rem, 4vw, 3.5rem); /* room for the black necks between cards */
-  padding: clamp(1.5rem, 4vw, 2.75rem);
+  width: 100%;
+  /* height is set in JS from the centre image size */
 }
 .stage__defs {
   position: absolute;
@@ -825,7 +823,8 @@ h4 {
 }
 
 /* The pill layer sits behind the images. The goo filter blurs the black blocks
-   and hard-thresholds their alpha, so neighbours fuse into one shape. */
+   and hard-thresholds their alpha, so overlapping neighbours fuse into one
+   shape while each keeps a consistent corner radius. */
 .stage__pill {
   position: absolute;
   inset: 0;
@@ -837,87 +836,34 @@ h4 {
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 34px;
+  border-radius: var(--r-lg); /* consistent with the other pills */
   background: var(--black);
-  /* width / height / transform are written every frame by HeroStage.js */
+  /* width / height / transform / opacity are written each frame by JS */
 }
 
-.stage__slot {
-  position: relative;
-  z-index: 1;
-  min-width: 0;
-}
-/* The side images sit smaller so the centre reads as the subject. */
-.stage__slot--left,
-.stage__slot--right {
-  transform: scale(0.88);
-}
-.stage__slot--left {
-  transform-origin: right center;
-}
-.stage__slot--right {
-  transform-origin: left center;
-}
-
+/* Cards are absolutely positioned; left/top/width/height/transform are all set
+   from JS, so no layout rules here beyond the frame. */
 .stage__card {
-  position: relative;
+  position: absolute;
   margin: 0;
-  border-radius: var(--r-sm);
+  z-index: 1;
+  border-radius: var(--r-md);
   overflow: hidden;
   background: var(--canvas-soft);
-  /* Slow in, snap to place — the "turn" easing. Replayed on each rotation
-     because React remounts the figure (keyed by image index). */
-  animation: stage-pop 0.9s cubic-bezier(0.34, 1.32, 0.4, 1) both;
+  will-change: transform, filter, opacity, left, top, width, height;
+  backface-visibility: hidden;
 }
-/* Only the centre card gets the full overshoot pop. */
-.stage__slot--center .stage__card {
-  animation-name: stage-pop-center;
-}
-/* The photograph keeps its own proportions — no forced ratio, no cropping. */
+/* The image fills the card box, cropped to whatever ratio the slot dictates. */
 .stage__img {
   display: block;
   width: 100%;
-  height: auto; /* next/image emits a height attribute that would win otherwise */
+  height: 100%;
+  object-fit: cover;
 }
 .stage__card .ph {
-  aspect-ratio: 4 / 3; /* placeholders have no intrinsic size */
+  width: 100%;
+  height: 100%;
   border-radius: 0;
-}
-
-@keyframes stage-pop {
-  from {
-    opacity: 0;
-    transform: translateX(6%) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-/* Centre: rise in, overshoot bigger, then settle — the dynamic "pop". */
-@keyframes stage-pop-center {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  60% {
-    opacity: 1;
-    transform: scale(1.06);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-/* On phones a three-across row leaves the centre too small — show it alone. */
-@media (max-width: 640px) {
-  .stage {
-    grid-template-columns: 1fr;
-  }
-  .stage__slot--left,
-  .stage__slot--right {
-    display: none;
-  }
 }
 /* Scroll cue */
 .scroll-cue {

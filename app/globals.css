@@ -1028,7 +1028,11 @@ h4 {
   display: grid;
   gap: clamp(1.5rem, 3vw, 2.5rem) clamp(2rem, 5vw, 5.5rem);
 }
-@media (min-width: 900px) {
+/* The four-column tree needs ~1030px of room before the columns start
+   colliding, so it only engages on genuinely wide screens. Everything
+   narrower gets the stacked layout. Keep this breakpoint in sync with the
+   width check in components/OrgDiagram.js. */
+@media (min-width: 1200px) {
   .org {
     /* root | leads | services | outcome — fans out from the left edge and
        funnels back into "Your Brand" at the right edge.
@@ -1061,7 +1065,7 @@ h4 {
   /* Fixed cell width so both lead pills fill it — their right edges then
      line up, which is what keeps the wires into the services column equal. */
   .org__leadCell {
-    width: 17rem;
+    width: 15rem;
   }
   .org__lead {
     display: block;
@@ -1105,12 +1109,14 @@ h4 {
 .org__root {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.7rem;
   padding: 1rem 1.5rem;
   border-radius: 999px;
   background: var(--black);
   color: var(--on-black);
   box-shadow: 0 14px 40px rgba(11, 11, 11, 0.18);
+  text-align: center;
 }
 .org__root strong {
   display: block;
@@ -1141,6 +1147,7 @@ h4 {
   border: 1.5px solid var(--ink);
   background: var(--canvas);
   max-width: 17rem;
+  text-align: center;
 }
 .org__lead strong {
   display: block;
@@ -1163,7 +1170,7 @@ h4 {
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-@media (min-width: 900px) {
+@media (min-width: 1200px) {
   .org__nodes {
     /* A single column makes the fan-out from each lead legible, and
        stretching the pills aligns their right edges so the lines into
@@ -1181,6 +1188,7 @@ h4 {
   background: var(--canvas);
   font-size: 0.85rem;
   color: var(--ink-70);
+  text-align: center;
   transition: border-color 0.4s var(--ease), color 0.4s var(--ease),
     transform 0.4s var(--ease);
 }
@@ -1224,7 +1232,7 @@ h4 {
 }
 
 /* Stacked layout below the breakpoint */
-@media (max-width: 899px) {
+@media (max-width: 1199px) {
   .org__branch {
     padding-left: 1rem;
     border-left: 2px solid var(--line);

@@ -29,7 +29,8 @@ export default function OrgDiagram() {
     if (!wrap || !root) return;
 
     // Connectors are desktop-only; the stacked layout doesn't use them.
-    if (window.innerWidth < 900) {
+    // Must match the .org breakpoint in globals.css.
+    if (window.innerWidth < 1200) {
       setPaths([]);
       return;
     }

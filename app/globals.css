@@ -844,6 +844,9 @@ h4 {
 .glass__img {
   display: block;
   width: 100%;
+  /* height:auto is required — next/image emits a height attribute, which acts
+     as a presentational hint and otherwise beats aspect-ratio. */
+  height: auto;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }

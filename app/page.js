@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import Reveal from "@/components/Reveal";
 import SplitHeadline from "@/components/SplitHeadline";
 import Placeholder from "@/components/Placeholder";
@@ -57,7 +58,15 @@ export default function HomePage() {
             <div className="glass">
               <div className="glass__inner">
                 {hero.image ? (
-                  <img className="glass__img" src={hero.image} alt={hero.imageAlt} />
+                  <Image
+                    className="glass__img"
+                    src={hero.image}
+                    alt={hero.imageAlt}
+                    width={hero.imageWidth}
+                    height={hero.imageHeight}
+                    sizes="(max-width: 1100px) 100vw, 1100px"
+                    priority /* hero image — this is the LCP element */
+                  />
                 ) : (
                   <Placeholder label={hero.imageLabel} />
                 )}

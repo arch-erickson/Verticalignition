@@ -3,9 +3,9 @@
 import { useId, useState } from "react";
 
 /**
- * PackageCard — a single package card with an animated expand/collapse panel
- * revealing the full list of included services.
- * Data comes from lib/content.js (packages array).
+ * PackageCard — package card with an animated expand panel listing everything
+ * included. The featured package renders as a black block with a fire edge.
+ * Data comes from lib/content.js → packages.
  */
 export default function PackageCard({ pkg }) {
   const [open, setOpen] = useState(false);
@@ -15,6 +15,7 @@ export default function PackageCard({ pkg }) {
     <article className={`pkg ${pkg.featured ? "pkg--featured" : ""}`}>
       {pkg.featured && <span className="pkg__badge">Most popular</span>}
 
+      <span className="pkg__n">{pkg.n}</span>
       <h3 className="pkg__name">{pkg.name}</h3>
       <p className="pkg__tagline">{pkg.tagline}</p>
 
@@ -31,15 +32,8 @@ export default function PackageCard({ pkg }) {
         aria-controls={panelId}
         onClick={() => setOpen((v) => !v)}
       >
-        <span>{open ? "Hide details" : "See everything included"}</span>
-        <svg
-          className="pkg__chev"
-          width="18"
-          height="18"
-          viewBox="0 0 24 24"
-          fill="none"
-          aria-hidden="true"
-        >
+        <span>{open ? "Hide the details" : "See everything included"}</span>
+        <svg className="pkg__chev" width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M6 9l6 6 6-6"
             stroke="currentColor"
@@ -50,11 +44,14 @@ export default function PackageCard({ pkg }) {
         </svg>
       </button>
 
-      <div id={panelId} className={`pkg__panel ${open ? "is-open" : ""}`} role="region">
+      <div id={panelId} className={`pkg__panel ${open ? "is-open" : ""}`}>
         <div className="pkg__panel-inner">
           <ul className="pkg__list">
             {pkg.includes.map((item) => (
-              <li key={item}>{item}</li>
+              <li key={item}>
+                <span className="pkg__tick" aria-hidden="true" />
+                <span>{item}</span>
+              </li>
             ))}
           </ul>
         </div>

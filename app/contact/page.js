@@ -1,38 +1,46 @@
 import Reveal from "@/components/Reveal";
+import SplitHeadline from "@/components/SplitHeadline";
 import ContactForm from "@/components/ContactForm";
 import { company } from "@/lib/content";
 
 export const metadata = {
   title: "Contact",
   description:
-    "Start your brand with a full-service branding company in New York City. Get a quote or book a consultation — design, buildout, digital, and marketing under one roof.",
+    "Start a project with a full-service branding team in New York City. Free walkthrough and a straight answer on scope, timeline, and cost.",
 };
 
 export default function ContactPage() {
   return (
     <>
-      {/* ============ PAGE HEADER ============ */}
+      {/* ===================== PAGE HEADER ===================== */}
       <section className="page-head">
-        <div className="container">
+        <div className="diagonals" aria-hidden="true" />
+        <div className="container" style={{ position: "relative", zIndex: 1 }}>
           <Reveal>
-            <span className="eyebrow">Start your brand</span>
-            <h1 className="page-head__title">Let&apos;s build something worth walking into.</h1>
-            <p className="page-head__sub lead">
-              Tell us about your business and what you&apos;re planning. We&apos;ll get back to you
-              with next steps — usually within one business day.
+            <span className="eyebrow">Start a project</span>
+          </Reveal>
+          <SplitHeadline
+            lines={["Let's take it", "{off your plate}."]}
+            className="d1 page-head__title"
+            style={{ marginTop: "1.5rem" }}
+          />
+          <Reveal delay={340}>
+            <p className="lead page-head__sub">
+              Tell us what you&apos;re opening, fixing, or rebranding. We&apos;ll come look at
+              it, and you&apos;ll get a real number — not a range designed to get a meeting.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* ============ CONTACT ============ */}
-      <section className="section" style={{ paddingTop: 0 }}>
+      {/* ===================== FORM + DETAILS ===================== */}
+      <section className="section" style={{ paddingTop: "clamp(2rem,4vw,3.5rem)" }}>
         <div className="container contact-grid">
           <Reveal>
             <ContactForm />
           </Reveal>
 
-          <Reveal delay={120}>
+          <Reveal delay={140}>
             <div className="contact-info">
               <div className="contact-info__item">
                 <div className="lbl">Email</div>
@@ -43,14 +51,16 @@ export default function ContactPage() {
                 <a href={`tel:${company.phone.replace(/[^\d+]/g, "")}`}>{company.phone}</a>
               </div>
               <div className="contact-info__item">
-                <div className="lbl">Service area</div>
-                <p>{company.serviceArea}</p>
+                <div className="lbl">Where we work</div>
+                <p>
+                  {company.city} — {company.serviceArea}
+                </p>
               </div>
               <div className="contact-info__item">
-                <div className="lbl">Prefer to talk it through?</div>
-                {/* REPLACE href with a real booking link (Calendly, etc.) */}
-                <a href={`mailto:${company.email}?subject=Consultation%20request`}>
-                  Book a free consultation →
+                <div className="lbl">Rather just talk?</div>
+                {/* REPLACE with a real booking link (Calendly, etc.) when you have one */}
+                <a href={`mailto:${company.email}?subject=Walkthrough%20request`}>
+                  Book a free walkthrough →
                 </a>
               </div>
             </div>

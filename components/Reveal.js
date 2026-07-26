@@ -3,14 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 
 /**
- * Reveal — wraps children and fades/slides them in when scrolled into view.
+ * Reveal — fades/slides content in when it scrolls into view.
  * Respects prefers-reduced-motion (handled in globals.css).
  *
  * Props:
- *  - as: element/tag to render (default "div")
- *  - delay: optional stagger delay in ms
+ *  - as:      element/tag to render (default "div")
+ *  - variant: "" | "clip" | "scale"
+ *  - delay:   stagger delay in ms
  */
-export default function Reveal({ as: Tag = "div", delay = 0, className = "", children, ...rest }) {
+export default function Reveal({
+  as: Tag = "div",
+  variant = "",
+  delay = 0,
+  className = "",
+  children,
+  ...rest
+}) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -27,17 +35,19 @@ export default function Reveal({ as: Tag = "div", delay = 0, className = "", chi
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.1, rootMargin: "0px 0px -6% 0px" }
     );
 
     io.observe(el);
     return () => io.disconnect();
   }, []);
 
+  const variantClass = variant ? `reveal--${variant}` : "";
+
   return (
     <Tag
       ref={ref}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal ${variantClass} ${visible ? "is-visible" : ""} ${className}`}
       style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       {...rest}
     >

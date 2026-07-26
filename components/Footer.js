@@ -4,7 +4,7 @@ import { company } from "@/lib/content";
 const NAV = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/clients", label: "Clients" },
+  { href: "/work", label: "Work" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -15,14 +15,14 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__top">
-          <div>
-            <div className="footer__brand">{company.name}</div>
-            <p className="footer__blurb">
-              {company.tagline} A full-branding studio for small businesses in{" "}
-              {company.city} — design, buildout, digital, and marketing under one roof.
+          <div className="footer__lead">
+            <p className="footer__tagline">
+              You run the business.
+              <br />
+              <span className="fire">We&apos;ll handle the brand.</span>
             </p>
             <div className="footer__social">
-              {/* REPLACE social hrefs in lib/content.js */}
+              {/* REPLACE social hrefs in lib/content.js → company.social */}
               {company.social.map((s) => (
                 <a
                   key={s.label}
@@ -31,7 +31,7 @@ export default function Footer() {
                   target={s.href !== "#" ? "_blank" : undefined}
                   rel={s.href !== "#" ? "noopener noreferrer" : undefined}
                 >
-                  {s.label.slice(0, 2).toUpperCase()}
+                  {s.short}
                 </a>
               ))}
             </div>
@@ -58,17 +58,28 @@ export default function Footer() {
                 <a href={`tel:${company.phone.replace(/[^\d+]/g, "")}`}>{company.phone}</a>
               </li>
               <li>
-                <p>{company.serviceArea}</p>
+                <p>
+                  {company.city}
+                  <br />
+                  {company.serviceArea}
+                </p>
               </li>
             </ul>
           </div>
+        </div>
+
+        {/* Oversized outlined wordmark watermark */}
+        <div className="footer__mark" aria-hidden="true">
+          {company.nameLines[0]}
+          <br />
+          {company.nameLines[1]}
         </div>
 
         <div className="footer__bottom">
           <span>
             © {year} {company.name}. All rights reserved.
           </span>
-          <span>Serving {company.serviceArea}</span>
+          <span>Designed and built in New York.</span>
         </div>
       </div>
     </footer>

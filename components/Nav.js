@@ -8,7 +8,7 @@ import { company } from "@/lib/content";
 const LINKS = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
-  { href: "/clients", label: "Clients" },
+  { href: "/work", label: "Work" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -17,7 +17,6 @@ export default function Nav() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Add a border to the nav once the user scrolls.
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
@@ -25,20 +24,28 @@ export default function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close the mobile menu whenever the route changes.
+  // Close the mobile menu on route change.
+  useEffect(() => setOpen(false), [pathname]);
+
+  // Lock body scroll while the mobile menu is open.
   useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
 
   return (
     <header className={`nav ${scrolled ? "is-scrolled" : ""} ${open ? "is-open" : ""}`}>
       <div className="container nav__inner">
+        {/* Stacked logotype + pulsing ember (REPLACE with a real logo if you have one) */}
         <Link href="/" className="nav__brand" aria-label={`${company.name} home`}>
-          {/* REPLACE .nav__logo with a real logo image when available */}
-          <span className="nav__logo" aria-hidden="true">
-            {company.shortName}
+          <span className="nav__spark" aria-hidden="true" />
+          <span className="nav__word">
+            {company.nameLines[0]}
+            <br />
+            {company.nameLines[1]}
           </span>
-          <span>{company.name}</span>
         </Link>
 
         <nav aria-label="Primary">
@@ -55,7 +62,7 @@ export default function Nav() {
               </li>
             ))}
             <li className="nav__cta-mobile">
-              <Link href={company.primaryCta.href} className="btn btn--primary">
+              <Link href={company.primaryCta.href} className="btn btn--fire">
                 {company.primaryCta.label}
               </Link>
             </li>
@@ -63,10 +70,7 @@ export default function Nav() {
         </nav>
 
         <div className="nav__actions">
-          <Link
-            href={company.primaryCta.href}
-            className="btn btn--primary nav__cta-desktop"
-          >
+          <Link href={company.primaryCta.href} className="btn btn--sm nav__cta-desktop">
             {company.primaryCta.label}
           </Link>
           <button
@@ -77,7 +81,8 @@ export default function Nav() {
             aria-controls="nav-menu"
             onClick={() => setOpen((v) => !v)}
           >
-            <span />
+            <i aria-hidden="true" />
+            <i aria-hidden="true" />
           </button>
         </div>
       </div>

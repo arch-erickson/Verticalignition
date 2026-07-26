@@ -54,7 +54,6 @@ export default function HomePage() {
           {/* Frosted glass panel with the image inset from its edge.
               Set hero.image in lib/content.js to swap in a real photo. */}
           <Reveal variant="scale" delay={200} className="hero__media">
-            <div className="hero__glow" aria-hidden="true" />
             <div className="glass">
               <div className="glass__inner">
                 {hero.image ? (

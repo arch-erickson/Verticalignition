@@ -3,8 +3,27 @@
 import { useEffect, useRef, useState } from "react";
 import { stats } from "@/lib/content";
 
+const ROMAN = [
+  [1000, "M"], [900, "CM"], [500, "D"], [400, "CD"],
+  [100, "C"], [90, "XC"], [50, "L"], [40, "XL"],
+  [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+];
+
+/** 5 → "V". Used for the stats flagged `roman` in lib/content.js. */
+function toRoman(n) {
+  let out = "";
+  let left = n;
+  for (const [num, sym] of ROMAN) {
+    while (left >= num) {
+      out += sym;
+      left -= num;
+    }
+  }
+  return out;
+}
+
 /** A single stat whose number counts up once it scrolls into view. */
-function Stat({ value, suffix, label }) {
+function Stat({ value, suffix, label, roman }) {
   const ref = useRef(null);
   const [n, setN] = useState(0);
 
@@ -43,10 +62,13 @@ function Stat({ value, suffix, label }) {
     return () => io.disconnect();
   }, [value]);
 
+  // Clamp to 1 while counting so a Roman stat never flashes empty at zero.
+  const shown = roman ? toRoman(Math.max(1, n)) : n;
+
   return (
     <div ref={ref}>
-      <div className="stat__value">
-        {n}
+      <div className={`stat__value ${roman ? "stat__value--roman" : ""}`}>
+        {shown}
         {suffix}
       </div>
       <p className="stat__label">{label}</p>

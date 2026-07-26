@@ -81,6 +81,13 @@ a {
   color: inherit;
   text-decoration: none;
 }
+/* Every list here is custom-styled — none of them want the browser's
+   default 40px indent, which otherwise silently offsets list items. */
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
 button {
   font: inherit;
   /* buttons don't inherit color by default — without this, buttons inside
@@ -1023,10 +1030,13 @@ h4 {
 }
 @media (min-width: 900px) {
   .org {
-    /* root | leads | services | outcome — everything fans out from the left
-       and funnels back into "Your Brand" on the right */
+    /* root | leads | services | outcome — fans out from the left edge and
+       funnels back into "Your Brand" at the right edge.
+       space-between spreads the columns across the full container width and
+       distributes the leftover space EQUALLY, so every wire spans the same
+       horizontal distance. */
     grid-template-columns: max-content max-content max-content max-content;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
   }
   .org__rootCell {
@@ -1047,6 +1057,16 @@ h4 {
     grid-column: 4;
     grid-row: 1 / span 2;
     align-self: center;
+  }
+  /* Fixed cell width so both lead pills fill it — their right edges then
+     line up, which is what keeps the wires into the services column equal. */
+  .org__leadCell {
+    width: 17rem;
+  }
+  .org__lead {
+    display: block;
+    width: 100%;
+    max-width: none;
   }
 }
 

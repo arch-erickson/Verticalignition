@@ -2,6 +2,7 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import SplitHeadline from "@/components/SplitHeadline";
 import Placeholder from "@/components/Placeholder";
+import CursorGrid from "@/components/CursorGrid";
 import Marquee from "@/components/Marquee";
 import Stats from "@/components/Stats";
 import ProcessSticky from "@/components/ProcessSticky";
@@ -14,10 +15,9 @@ export default function HomePage() {
     <>
       {/* ===================== HERO ===================== */}
       <section className="hero">
-        <div className="diagonals" aria-hidden="true" />
-        <span className="rotated-note" aria-hidden="true">
-          {hero.rotatedNote}
-        </span>
+        {/* Interactive grid of thin "+" marks that thicken toward the cursor.
+            Tune the feel via the constants at the top of CursorGrid.js. */}
+        <CursorGrid />
 
         <div className="container hero__inner">
           <SplitHeadline lines={hero.headlineLines} className="d1 hero__title" />

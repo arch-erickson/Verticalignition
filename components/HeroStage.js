@@ -42,9 +42,9 @@ export default function HeroStage() {
   // Returns the box for a given slot at the current stage size.
   const boxFor = (slot, W, H) => {
     const narrow = W < 640;
-    const centerW = narrow ? W - PAD * 2 : Math.min(W * 0.46, 520);
+    const centerW = narrow ? W - PAD * 2 : Math.min(W * 0.48, 540);
     const centerH = centerW * (9 / 16); // 16:9 centre
-    const sideH = centerH * 1.06; // 1:1 sides, a touch taller than centre's height
+    const sideH = centerH * 0.82; // 1:1 sides, clearly smaller than the centre
     const sideW = sideH;
     const cy = H / 2;
 
@@ -60,10 +60,9 @@ export default function HeroStage() {
   };
 
   const stageHeight = (W) => {
-    const centerW = W < 640 ? W - PAD * 2 : Math.min(W * 0.46, 520);
-    const centerH = centerW * (9 / 16);
-    const sideH = centerH * 1.06;
-    return Math.round(sideH + PAD * 2 + 24);
+    const centerW = W < 640 ? W - PAD * 2 : Math.min(W * 0.48, 540);
+    const centerH = centerW * (9 / 16); // centre is now the tallest card
+    return Math.round(centerH + PAD * 2 + 28);
   };
 
   const slotOf = (imageIndex, act) => {
@@ -103,11 +102,14 @@ export default function HeroStage() {
       const box = boxFor(slot, W, H);
       const isWrap = animate && prevSlot === "left" && slot === "right";
 
+      // Centre always sits in front of the two sides.
+      el.style.zIndex = slot === "center" ? "3" : "2";
+
       if (!animate) {
         el.style.transition = "none";
         el.style.transform = "none";
         el.style.filter = "none";
-        el.style.opacity = box.hidden ? "0" : slot === "center" ? "1" : "0.9";
+        el.style.opacity = box.hidden ? "0" : "1";
         el.style.borderRadius = `${R_CARD}px`;
         geoRef.current[i] = applyBox(el, box, W, H);
         return;
@@ -120,7 +122,7 @@ export default function HeroStage() {
         el.style.transition = `left 0.75s ${GLIDE}, top 0.75s ${GLIDE}, width 0.75s ${GLIDE}, height 0.75s ${GLIDE}, opacity 0.5s ease`;
         el.style.transform = "none";
         el.style.filter = "none";
-        el.style.opacity = box.hidden ? "0" : slot === "center" ? "1" : "0.9";
+        el.style.opacity = box.hidden ? "0" : "1";
         el.style.borderRadius = `${R_CARD}px`;
         applyBox(el, box, W, H);
       }
@@ -159,7 +161,7 @@ export default function HeroStage() {
             opacity: 0,
             borderRadius: "50%",
           },
-          { transform: "none", filter: "none", opacity: to.hidden ? 0 : 0.9, borderRadius: `${R_CARD}px` },
+          { transform: "none", filter: "none", opacity: to.hidden ? 0 : 1, borderRadius: `${R_CARD}px` },
         ],
         { duration: 640, easing: "cubic-bezier(0.12, 0.7, 0.2, 1)", fill: "forwards" }
       );
@@ -168,7 +170,7 @@ export default function HeroStage() {
         // hand control back to inline styles, then drop the animation
         el.style.transform = "none";
         el.style.filter = "none";
-        el.style.opacity = to.hidden ? "0" : "0.9";
+        el.style.opacity = to.hidden ? "0" : "1";
         el.style.borderRadius = `${R_CARD}px`;
         eject.cancel();
       };
